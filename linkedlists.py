@@ -11,6 +11,9 @@ class ListNode:
         self.val = val
         self.next = next
 
+    def __str__(self) -> str:
+        return f"{self.val}->{self.next}"
+
 
 class LinkedList:
     def __init__(self, nums: Optional[List[int]], head: Optional[ListNode] = None):
@@ -32,7 +35,7 @@ class LinkedList:
         while current:
             nums.append(str(current.val))
             current = current.next
-        return "-->".join(nums)
+        return "->".join(nums)
 
     def get_node(self, idx):
         current = self.head
@@ -109,8 +112,33 @@ def merge_two_lists(
     return head
 
 
-def middle_node(head: Optional[ListNode]) -> Optonal[ListNode]:
-    pass
+def middle_node(head: Optional[ListNode]) -> Optional[ListNode]:
+    """
+    Given a non-empty singly linked list, return the middle node
+    If there are two middle nodes, return the second middle node
+    """
+    head_copy = head
+    len = 0
+    while head:
+        len += 1
+        head = head.next
+    mid = len // 2
+
+    idx = 0
+    while head_copy:
+        if idx == mid:
+            return head_copy
+        else:
+            idx += 1
+            head_copy = head_copy.next
+
+
+def middle_node_two_pointers(head: Optional[ListNode]) -> Optional[ListNode]:
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    return slow
 
 
 def solve237():
@@ -134,3 +162,15 @@ def solve21():
     res = merge_two_lists(list1.head, list2.head)
     list3 = LinkedList(None, res)
     print(list3)
+
+
+def solve876():
+    list1 = LinkedList([1, 2, 3, 4, 5, 6])
+    res = middle_node(list1.head)
+    print(res)
+    list2 = LinkedList(None, res)
+    print(list2)
+
+
+if __name__ == "__main__":
+    solve876()
